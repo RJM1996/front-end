@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function count() {
+            var arr = [];
+            for (let i = 1; i <= 3; i++) {
+                arr.push(function () {
+                    return i * i;
+                });
+            }
+            // console.log(i);
+            return arr;
+        }
+        // 在这里count的类型是function
+        console.log(typeof count);
+        console.log(count instanceof Number);
+        console.log(count instanceof Function);
+        console.log(count instanceof Array);
+        console.log(count instanceof Object);
+        var res = count();
+        console.log(res);
+        console.log(res[0]());
+        console.log(res[1]());
+        console.log(res[2]());
+
+    </script>
+</body>
+
+</html>

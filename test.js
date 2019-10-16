@@ -264,3 +264,307 @@ for (let i = 0; i < 5; i++) {
     parse();
 }
 console.log(count)
+
+// 高阶函数: 一个函数可以接收另一个函数为参数
+var x = -5,
+    y = 6,
+    foo = Math.abs;
+function addAbs(x, y, foo) {
+    return foo(x) + foo(y);
+}
+// 这里把指向函数 Math.abs 的变量 foo 作为参数传入了函数addAbs
+console.log(addAbs(x, y, foo));
+
+// Array的map方法: 将函数作为参数, 对Array中的每个元素执行该函数, 生成一个新的Array
+function pow(x) {
+    return x * x;
+}
+var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+var results = arr.map(pow);
+console.log(results);
+// 将Array中的所有元素转化为字符串
+results = arr.map(String);
+console.log(results);
+var num = 100;
+num = String(num);
+console.log(num);
+
+// Array的reduce方法: 对Array中的元素做累积计算
+function add(x, y) {
+    return x + y;
+}
+// 上面函数的两个参数是必填的
+// x表示Array的第一个元素/计算完成后的返回值
+// y表示当前元素
+// 也就是从数组的第一个元素开始和后面一个元素进行相加
+// 相加结果赋给x, 然后又用x和下一个元素进行累积计算, 直到所有元素计算完毕
+var res = arr.reduce(add);
+console.log(res);
+// 利用reduce求积
+res = arr.reduce(
+    function (x, y) {
+        return x * y;
+    }
+);
+console.log(res);
+// 将Array变成Number
+var arr = [1, 3, 5, 7, 9];
+console.log(typeof arr);
+arr = ['1', '3', '5', '7', '9'];
+arr = arr.reduce(
+    function (x, y) {
+        return x * 10 + y * 1;
+    }
+);
+console.log(typeof arr);
+// 将字符串"13579"变成Array[1,3,5,7,9]
+var string = "13579";
+var arr = [];
+for (let i = 0; i < string.length; i++) {
+    arr.push(string.charAt(i));
+}
+console.log(arr);
+
+function string2int(str) {
+    var arr = new Array();
+    for (let i = 0; i < str.length; i++) {
+        arr.push(str.charAt(i) * 1);
+    }
+    return arr.reduce(
+        function (x, y) {
+            return x * 10 + y * 1;
+        }
+    );
+}
+var a = string2int('0');
+console.log(a === 0);
+console.log(string2int('12345'));
+console.log(string2int('12300'));
+
+// 测试:
+if (string2int('0') === 0 && string2int('12345') === 12345 && string2int('12300') === 12300) {
+    if (string2int.toString().indexOf('parseInt') !== -1) {
+        console.log('请勿使用parseInt()!');
+    } else if (string2int.toString().indexOf('Number') !== -1) {
+        console.log('请勿使用Number()!');
+    } else {
+        console.log('测试通过!');
+    }
+}
+else {
+    console.log('测试失败!');
+}
+
+// 将输入不规范的英文名变为首字母大写, 其他小写的英文名
+// 先将所有字母小写
+function toLower(str) {
+    return str.toLowerCase();
+}
+var name = ['adam', 'LISA', 'barT'];
+// 再将首字母大写
+function firstToUpper(str) {
+    return str[0].toUpperCase() + str.slice(1);
+}
+
+function normalize(arr) {
+    arr = arr.map(toLower);
+    return arr.map(firstToUpper);
+}
+name = normalize(name);
+console.log(name)
+
+// 注意: Array的map方法传递3个参数(元素, 元素下标, 数组)
+// 给传入其中的函数
+var arr = ["1", "2", "3"];
+// 这里向parseInt函数传递了3个参数, 但实际只会接收前两个
+// 第二个参数意为: 以几进制为基础, 将第一个参数转为Int
+// 因为这里第二个参数是元素下标, 即: 0 1 2
+// 分别意为: 以10进制 1进制 2进制来转换为Int
+// 所以后两个数转换结果为 NaN
+var res = arr.map(parseInt);
+console.log(res);
+// 解决方法
+// 1. 使用自定义函数, 指定第二个参数
+function returnInt(num) {
+    return parseInt(num, 10);
+}
+res = arr.map(returnInt);
+console.log(res);
+// 2. 使用箭头函数, 只传一个参数, 则第二个参数默认为10
+res = arr.map(str => parseInt(str));
+console.log(res);
+// 3. 使用Number
+res = arr.map(Number);
+console.log(res);
+
+// Array的filter函数: 用于过滤某些元素
+var arr = [1, 2, 4, 5, 6, 9, 10, 15];
+function isOdd(x) {
+    return x % 2 !== 0;
+}
+console.log(isOdd(3));
+// 对于每个元素调用函数isOdd
+// 结果为true则保留, 为false则丢弃
+arr = arr.filter(isOdd);
+console.log(arr);
+arr = ['A', '', 'B', null, undefined, 'C', '  '];
+// 过滤空字符串
+function isNotBlank(str) {
+    var bool = (str && str.trim());
+    console.log(bool);
+    return bool;
+}
+arr = arr.filter(isNotBlank);
+console.log(arr);
+var a = ' ';
+if (a) {
+    console.log(a + "is true");
+} else {
+    console.log(a + "is false");
+}
+// 和map一样, filter也传递3个参数给回调函数: 元素 索引 数组
+var arr = ['A', 'B', 'C'];
+var r = arr.filter(function (element, index, self) {
+    console.log(element); // 依次打印'A', 'B', 'C'
+    console.log(index); // 依次打印0, 1, 2
+    console.log(self); // self就是变量arr
+    return true;
+});
+var arr = ['apple', 'strawberry', 'banana', 'pear', 'apple', 'orange', 'orange', 'strawberry'];
+// Array的indexOf方法只会返回在数组中第一次出现的元素下标
+// 可以利用这个特性来去除Array中的重复元素
+console.log(arr.indexOf("apple"));
+function isFirstElement(element, index, self) {
+    // 当前元素不是数组中第一个出现的, 返回false, 则丢弃
+    return self.indexOf(element) === index;
+}
+arr = arr.filter(isFirstElement);
+console.log(arr);
+
+// 使用 filter 筛选出素数: 除了1和本身, 不能被其他数整除
+function isPrimeNum(num) {
+    if (num === 1) {
+        return false;
+    }
+    for (let i = 2; i < num; i++) {
+        if (num % i === 0) {
+            return false;
+        }
+    }
+    return true;
+}
+console.log(isPrimeNum(8));
+var arr = new Array();
+for (let i = 0; i < 100; i++) {
+    arr.push(i);
+}
+arr = arr.filter(isPrimeNum);
+console.log(arr);
+
+// Array的sort函数: 默认把所有元素先转为string再排序
+// 它也是一个高阶函数, 可以接收一个比较函数来实现自定义排序
+var arr = [10, 20, 1, 2];
+// 这样的排序结果是: 1,10,2,20
+console.log(arr.sort());
+// 为了让他能够从小到大排序, 需要定义一个比较函数
+function ascSort(x, y) {
+    if (x < y) {
+        return -1;
+    } else if (x > y) {
+        return 1;
+    }
+    return 0;
+}
+console.log(arr.sort(ascSort));
+
+// Array对象的其他高阶函数
+// every(): 判断数组的所有元素是否满足某个条件
+var arr = ['Apple', 'pear', 'orange'];
+// 判断数组中的每个元素是否都为小写
+console.log(arr.every(
+    function (s) {
+        return s.toLowerCase() === s;
+    }
+));
+// find(): 查找数组中符合条件的第一个元素. 找到返回这个元素, 否则返回 undefined
+console.log(arr.find(
+    function (s) {
+        // return s.toLowerCase() === s;
+        return s.toUpperCase() === s;
+    }
+));
+// findIndex(): 和find类似, 找到了返回索引, 否则返回-1
+console.log(arr.findIndex(function (s) {
+    return s.toUpperCase() === s;
+}));
+// forEach(): 类似map, 但不会返回新的数组, 常用于遍历数组
+arr.forEach(console.log);
+
+// 闭包
+// 高阶函数除了可以接收函数作为参数, 还可以将函数作为结果返回
+function lazy_sum(arr) {
+    var sum = function () {
+        return arr.reduce(function (x, y) {
+            return x + y;
+        });
+    }
+    return sum;
+}
+var arr = [1, 2, 3, 4, 5];
+var foo = lazy_sum(arr);
+console.log(foo);
+console.log(foo());
+
+// 借助闭包, 可以封装一个私有变量
+// 闭包就是一个携带私有变量的函数
+function create_counter(initial) {
+    var x = initial || 0;
+    return {
+        inc: function () {
+            return x += 1;
+        }
+    }
+}
+var c1 = create_counter(3);
+console.log(c1.inc());
+console.log(c1.inc());
+console.log(c1.inc());
+
+// 闭包还可以把多参数的函数变为单参数的函数
+// 计算x的y次方
+function make_pow(y) {
+    var pow = function (x) {
+        return Math.pow(x, y);
+    }
+    return pow;
+}
+console.log(typeof make_pow);
+// 创建两个函数, 通过传入参数y, 可以指定计算x的多少次方
+var pow2 = make_pow(2); // 函数pow2(): 计算平方
+var pow3 = make_pow(3); // 函数pow2(): 计算立方
+console.log(pow2(3));
+console.log(pow3(3));
+
+function pow2(x) {
+    return Math.pow(x, 2);
+}
+console.log(pow2(3));
+
+function count01() {
+    var arr = [];
+    for (var i = 1; i <= 3; i++) {
+        arr.push(function () {
+            return i * i;
+        });
+    }
+    return arr;
+}
+// 在这里count的类型是number
+console.log(typeof count01);
+console.log(count01 instanceof Number);
+console.log(count01 instanceof Function);
+console.log(count01 instanceof Array);
+console.log(count01 instanceof Object);
+// console.log(typeof count());
+// var res = count();
+// console.log(res);
