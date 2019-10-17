@@ -841,7 +841,7 @@ function Person(name, age, job) {
 }
 // 在原型中定义共享属性
 Person.prototype = {
-    sayHello : function () {
+    sayHello: function () {
         console.log("Hello, I am " + this.name);
     }
 }
@@ -858,6 +858,123 @@ function f() {
 f.prototype.b = 3;
 f.prototype.c = 4;
 
-let o = new f();
-console.log(o.a);
-console.log(o.b);
+var obj = new f();
+console.log(obj.a);
+console.log(obj.b);
+
+// 继承方法
+var o = {
+    a: 2,
+    foo: function () {
+        return this.a + 1;
+    }
+};
+
+// 调用 o.foo(), this指向o
+console.log(o.foo()); // 3
+// 使用Object.create(o)创建一个对象继承自o
+var p = Object.create(o);
+// 这里的p就是一个继承自o的对象
+p.a = 5; // 创建p的自身属性a, 会屏蔽掉o的属性a
+// 调用 p.foo(), this指向p, 即this.a == p.a
+console.log(p.foo()); // 6
+
+// 原型继承
+function Student(props) {
+    this.name = props.name || 'unname';
+}
+// 定义原型属性
+Student.prototype.hello = function () {
+    console.log('hello, ' + this.name + '!');
+}
+
+// 现在我们有了一个自定义类型Student
+// 我们要创建另一个自定义类型PrimaryStudent继承自Student
+function PrimaryStudent(props) {
+    // 调用Student的构造函数, 绑定this变量
+    Student.call(this, props);
+    // 定义PrimaryStudent的自由属性grade
+    this.grade = props.grade || 1;
+}
+// 但这样不等于PrimaryStudent就继承了Student
+// 我们需要一个中间对象, 将Student的原型和PrimaryStudent的原型链接起来
+// 这个中间对象可以使用一个空函数来实现
+function F() {
+
+}
+// 把F的原型指向Student的原型
+F.prototype = Student.prototype;
+// 把PrimaryStudent的原型指向一个F对象
+// F对象的原型正好指向Student的原型
+PrimaryStudent.prototype = new F();
+PrimaryStudent.prototype.constructor = PrimaryStudent;
+// 然后在PrimaryStudent的原型上定义一个方法
+PrimaryStudent.prototype.getGrade = function () {
+    return this.grade;
+}
+// 现在我们创建一个PrimaryStudent对象
+var Jack = new PrimaryStudent({
+    name: 'Jack',
+    grade: 99
+});
+console.log(Jack);
+
+// 验证原型链
+var pro = Jack.__proto__ === PrimaryStudent.prototype;
+console.log(pro);
+pro = Jack.__proto__.__proto__ === Student.prototype;
+console.log(pro);
+
+// 验证继承关系
+pro = Jack instanceof PrimaryStudent;
+console.log(pro);
+pro = Jack instanceof Student;
+console.log(pro);
+
+// 这样就实现了 PrimaryStudent 继承自 Student
+// 我们可以把这一系列的继承动作封装起来
+function inherit(child, parent) {
+    // 创建中间对象: 空函数
+    function F() { };
+    // 将中间对象的原型指向父类的原型
+    F.prototype = parent.prototype;
+    // 将子类的原型指向新的中间对象
+    child.prototype = new F();
+    // 定义子类的构造函数
+    child.prototype.constructor = child;
+}
+
+// JavaScript实现原型继承的步骤
+// 1. 在子类的构造函数中使用call()来调用希望继承的父类的构造函数,绑定this
+// 2. 借助中间对象: 空函数F(), 将父类和子类的原型链接起来. 最好封装成 inherits 函数
+// 3. 调用 inherits 函数实现原型继承
+// 4. 在子类的原型上定义新的方法
+
+// class继承: ES6开始引入
+class Person01 {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    hello() {
+        console.log("Hello, I am " + this.name);
+    }
+}
+// 这样就定义了一个 Person01 类
+// 创建实例对象
+var lucy = new Person01('lucy', 21);
+lucy.hello();
+// 使用 extends 关键字
+class Man extends Person01 {
+    constructor (name, age, height) {
+        // 使用super调用父类的构造方法
+        super(name, age);
+        this.height = height;
+    }
+    myHeight() {
+        console.log("Hello, I am " + this.name);
+        console.log("my height is " + this.height);
+    }
+}
+var Tom = new Man('tom', 22, 178);
+Tom.myHeight();
