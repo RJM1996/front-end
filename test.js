@@ -797,7 +797,7 @@ console.log(typeof xiaoming); // object
 
 // 访问天气api
 var url = 'https://api.openweathermap.org/data/2.5/forecast?q=Beijing,cn&appid=800f49846586c3ba6e7052cfc89af16c';
-function WeatherInfo(data){
+function WeatherInfo(data) {
     var info = {
         city: data.city.name,
         weather: data.list[0].weather[0].main,
@@ -806,4 +806,58 @@ function WeatherInfo(data){
     console.log(JSON.stringify(info, null, "  "));
 }
 // $.getJSON(url, WeatherInfo);
+// 面向对象编程
+// 在JS中通过原型（prototype）来实现面向对象编程
+function Cat(name) {
+    this.name = name;
+}
+Cat.prototype.say = function () {
+    return ("Hello, " + this.name + "!");
+}
 
+var cat = new Cat("机器猫");
+cat.say();
+
+// 测试:
+var kitty = new Cat('Kitty');
+var doraemon = new Cat('哆啦A梦');
+console.log(typeof kitty.say);
+console.log(kitty.say === doraemon.say);
+if (kitty && kitty.name === 'Kitty'
+    && kitty.say && typeof kitty.say === 'function'
+    && kitty.say() === 'Hello, Kitty!'
+    && kitty.say === doraemon.say) {
+    console.log('测试通过!');
+} else {
+    console.log('测试失败!');
+}
+
+// 创建自定义类型最常见的一种方式: 组合使用构造函数模式和原型模式
+// 在构造函数中定义实例属性
+function Person(name, age, job) {
+    this.name = name;
+    this.age = age;
+    this.job = job;
+}
+// 在原型中定义共享属性
+Person.prototype = {
+    sayHello : function () {
+        console.log("Hello, I am " + this.name);
+    }
+}
+
+var tom = new Person('tom', 15, 'student');
+tom.sayHello();
+
+// 基于原型链的继承
+function f() {
+    this.a = 1;
+    this.b = 2;
+}
+// 在f的原型上定义属性
+f.prototype.b = 3;
+f.prototype.c = 4;
+
+let o = new f();
+console.log(o.a);
+console.log(o.b);
