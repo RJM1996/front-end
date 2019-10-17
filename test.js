@@ -559,7 +559,7 @@ function count01() {
     }
     return arr;
 }
-// 在这里count的类型是number
+// 在这里count01的类型是number
 console.log(typeof count01);
 console.log(count01 instanceof Number);
 console.log(count01 instanceof Function);
@@ -568,3 +568,242 @@ console.log(count01 instanceof Object);
 // console.log(typeof count());
 // var res = count();
 // console.log(res);
+
+// 箭头函数
+var foo = x => x * x;
+console.log(foo(5));
+// 多个参数需要用括号
+(x, y) => {
+    return x + y;
+}
+var arr = [10, 20, 1, 2];
+arr.sort(
+    (x, y) => {
+        return x > y ? 1 : -1;
+    }
+)
+console.log(arr);
+
+// 箭头函数的 this: 总是指向词法作用域, 也就是外层调用者obj
+var obj = {
+    birth: 1990,
+    getAge: function () {
+        var b = this.birth; // 1990
+        var fn = () => new Date().getFullYear() - this.birth; // this指向obj对象
+        // return fn();
+        // 这里的this不会指向 { birth: 2000 }
+        // 而是指向obj, 因此birth仍然是1990
+        return fn.call({ birth: 2000 });
+    }
+};
+console.log(obj.getAge());
+
+// 生成器 generator: 使用function*定义
+// 除了return语句, 还可以用yield返回多次
+// 举例: 生成斐波那契数列
+function* fib(max) {
+    var a = 0,
+        b = 1,
+        n = 0;
+    while (n < max) {
+        yield a;
+        [a, b] = [b, a + b];
+        n++;
+    }
+    return;
+}
+// 这里fib(5)只是创建了一个generator对象, 还没有执行
+var foo = fib(5);
+console.log(foo);
+// 使用 generator 的 next() 方法执行
+// 这只是执行了一次, 遇到yield a;就返回了
+// 如果要执行完毕, 需要调用6次next(), 直到遇到return;
+console.log(foo.next());
+
+// 使用 for...of 循环迭代 generator 对象
+for (const iterator of fib(10)) {
+    console.log(iterator);
+}
+
+// 生成一个自增的id
+function* next_id() {
+    var count = 0;
+    while (1) {
+        yield ++count;
+        if (count === 100) {
+            return;
+        }
+    }
+}
+console.log(next_id().next());
+for (const iterator of next_id()) {
+    console.log(iterator);
+}
+
+// 标准对象: number string boolean function 和 undefined
+// 包装对象: Number String Boolean 使用new创建 他们的类型是 object
+// 对number对象使用toString需要注意
+// 123.toString(); 语法错误
+// 正确写法
+123..toString();
+(123).toString();
+
+// Date对象
+var now = new Date();
+// 显示本地时间
+console.log(now.toLocaleString());
+
+if (Date.now) {
+    console.log(Date.now()); // 老版本IE没有now()方法
+} else {
+    console.log(new Date().getTime());
+}
+console.log(Date.now());
+console.log(new Date().getTime());
+
+var today = new Date();
+console.log(today);
+console.log(today.getMonth());
+console.log(today.getDate());
+// 在JS中月份从0开始 0代表1月 11代表12月
+if (today.getMonth() + 1 === 2 && today.getDate() === 14) {
+    alert('亲爱的，我预定了晚餐，晚上6点在餐厅见！');
+}
+
+// JS 正则表达式
+// 创建方式: 1. 直接使用 /正则表达式/ 
+var regexp = /^\d{3}\-\d{3,8}$/;
+// 2. 使用new RegExp('正则表达式')
+var regexp01 = new RegExp('^\\d{3}\\-\\d{3,8}$');
+// 使用RegExp对象的test方法判断是否匹配
+console.log(regexp.test('010-1234567'));
+console.log(regexp01.test('010-12345'));
+
+// 使用正则表达式切分字符串
+var string = 'adc   cs ac';
+// 使用固定字符切分 不能识别连续的空格
+console.log(string.split(' '));
+// 使用正则切分
+console.log(string.split(/\s+/));
+
+// 使用正则表达式提取子串: ()中表示的就是要提取的分组
+regexp01 = /^(\d{3})-(\d{3,8})$/;
+var arr = regexp01.exec('010-12345');
+console.log(arr);
+// 识别合法时间
+var re = /^(0[0-9]|1[0-9]|2[0-3]|[0-9])\:(0[0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9]|[0-9])\:(0[0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9]|[0-9])$/;
+console.log(re.exec('15:34:24'));
+// exec()如果匹配失败会返回null
+console.log(re.exec('15:84:24')); // null
+
+// 贪婪匹配: 尽可能匹配多的字符(默认为贪婪匹配)
+var re = /^(\d+)(0*)$/;
+// 上面的正则表达式匹配数字和数字后面的0, 但因为是贪婪匹配
+// 第一个分组中匹配到的内容就是 1023000, 第二个分组只能匹配空字符串了
+console.log(re.exec(1023000));
+// 使用?来切换为非贪婪匹配
+re = /^(\d+?)(0*)$/;
+console.log(re.exec(1023000));
+
+// 全局搜索 g
+var s = 'JavaScript, VBScript, JScript and ECMAScript';
+// var re = /[a-zA-Z]+Script/g;
+var re = /[a-zA-Z]+Script/;
+
+// 使用全局匹配: 会记录上次匹配到的位置 从上次的位置开始匹配
+// 如果不使用全局匹配 就只能匹配到第一个符合要求的字符串
+var a = re.exec(s); // ['JavaScript']
+re.lastIndex; // 10
+
+a = re.exec(s); // ['VBScript']
+re.lastIndex; // 20
+
+a = re.exec(s); // ['JScript']
+re.lastIndex; // 29
+
+a = re.exec(s); // ['ECMAScript']
+re.lastIndex; // 44
+
+a = re.exec(s); // null，直到结束仍没有匹配到
+
+// 匹配邮箱
+var re = /^\w+\.?\w+\@\w+\.\w+$/;
+console.log(re.test('rjm96@foxmail.com')); // true
+console.log(re.test('rjm@96@foxm@ail.com')); // false
+// 提取名字
+var re = /^\<(\w+\s?\w+)\>\s?(\w+\.?\w+\@\w+\.\w+)$/;
+console.log(re.exec('<Tom Paris> rjm96@foxmail.com'));
+console.log(re.exec('rjm@96@foxm@ail.com'));
+
+// JSON 
+// 序列化: 将js对象序列化为json字符串
+var xiaoming = {
+    name: '小明',
+    age: 14,
+    gender: true,
+    height: 1.65,
+    grade: null,
+    'middle-school': '\"W3C\" Middle School',
+    skills: ['JavaScript', 'Java', 'Python', 'Lisp']
+};
+var s = JSON.stringify(xiaoming, null, ' ');
+console.log(s);
+// JSON.stringify() 的第2个参数可以传入一个Array, 用于指定输出的属性
+// 第三个参数指定输出缩进格式
+s = JSON.stringify(xiaoming, ['name', 'age', 'skills'], ' ');
+console.log(s);
+// 第2个参数还可以传入一个函数, 每个键值对都会先被函数处理
+function convert(key, value) {
+    if (typeof value === 'string') {
+        return value.toUpperCase();
+    }
+    return value;
+}
+s = JSON.stringify(xiaoming, convert, '  ');
+console.log(s);
+
+// 如果想要精确控制如何序列化一个对象, 可以在对象内定义一个toJSON()方法
+var xiaoming = {
+    name: '小明',
+    age: 14,
+    gender: true,
+    height: 1.65,
+    grade: null,
+    'middle-school': '\"W3C\" Middle School',
+    skills: ['JavaScript', 'Java', 'Python', 'Lisp'],
+    toJSON: function () {
+        return { // 只输出name和age，并且改变了key：
+            'Name': this.name,
+            'Age': this.age
+        };
+    }
+};
+s = JSON.stringify(xiaoming, null, '  ');
+console.log(s);
+
+// 反序列化: 将一个JSON字符串变成一个JavaScript对象
+var s = '{"name":"小明","age":14}';
+console.log(typeof s); // string
+var xiaoming = JSON.parse(s);
+console.log(typeof xiaoming); // object
+// JSON.parse()的第二个参数可以接收一个函数
+// 来对每个键值对进行一些操作
+
+// const jsdom = require("jsdom");
+// const {JSDOM} = jsdom;
+// const {window} = new JSDOM('<!DOCTYPE html>');
+// const $ = require('jQuery')(window);
+// console.log($);
+
+// 访问天气api
+var url = 'https://api.openweathermap.org/data/2.5/forecast?q=Beijing,cn&appid=800f49846586c3ba6e7052cfc89af16c';
+function WeatherInfo(data){
+    var info = {
+        city: data.city.name,
+        weather: data.list[0].weather[0].main,
+        time: data.list[0].dt_txt
+    };
+    console.log(JSON.stringify(info, null, "  "));
+}
+// $.getJSON(url, WeatherInfo);
+

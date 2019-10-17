@@ -9,30 +9,60 @@
 </head>
 
 <body>
-    <script>
-        function count() {
-            var arr = [];
-            for (let i = 1; i <= 3; i++) {
-                arr.push(function () {
-                    return i * i;
-                });
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
+            function count() {
+                var arr = [];
+                for (let i = 1; i <= 3; i++) {
+                    arr.push(function () {
+                        return i * i;
+                    });
+                }
+                // console.log(i);
+                return arr;
             }
-            // console.log(i);
-            return arr;
-        }
-        // 在这里count的类型是function
-        console.log(typeof count);
-        console.log(count instanceof Number);
-        console.log(count instanceof Function);
-        console.log(count instanceof Array);
-        console.log(count instanceof Object);
-        var res = count();
-        console.log(res);
-        console.log(res[0]());
-        console.log(res[1]());
-        console.log(res[2]());
+            // 在这里count的类型是function
+            console.log(typeof count);
+            console.log(count instanceof Number);
+            console.log(count instanceof Function);
+            console.log(count instanceof Array);
+            console.log(count instanceof Object);
+            var res = count();
+            console.log(res);
+            console.log(res[0]());
+            console.log(res[1]());
+            console.log(res[2]());
 
-    </script>
+            // 生成器 generator: 使用function*定义
+            // 除了return语句, 还可以用yield返回多次
+            // 举例: 生成斐波那契数列
+            function* fib(max) {
+                var a = 0,
+                    b = 1,
+                    n = 0;
+                while (n < max) {
+                    yield a;
+                    [a, b] = [b, a + b];
+                    n++;
+                }
+            }
+            var foo = fib(5);
+            console.log(foo);
+            console.log(foo.next());
+
+            var url = 'https://api.openweathermap.org/data/2.5/forecast?q=Beijing,cn&appid=800f49846586c3ba6e7052cfc89af16c';
+            function WeatherInfo(data) {
+                var info = {
+                    city: data.city.name,
+                    weather: data.list[0].weather[0].main,
+                    time: data.list[0].dt_txt
+                };
+                console.log(JSON.stringify(info, null, "  "));
+            }
+            var data = $.getJSON(url, WeatherInfo);
+            console.log(data);
+
+        </script>
 </body>
 
 </html>
