@@ -9,8 +9,7 @@
 </head>
 
 <body>
-    <script src="https://code.jquery.com/jquery-3.3.1.js"
-        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
+    <script>
             function count() {
                 var arr = [];
                 for (let i = 1; i <= 3; i++) {
@@ -59,8 +58,12 @@
                 };
                 console.log(JSON.stringify(info, null, "  "));
             }
-            var data = $.getJSON(url, WeatherInfo);
-            console.log(data);
+            // var data = $.getJSON(url, WeatherInfo);
+            // console.log(data);
+
+            // 浏览器对象: window
+            console.log("浏览器窗口大小(外宽高): " + window.outerWidth + "x" + window.outerHeight)
+            console.log("显示网页布局大小(内宽高): " + window.innerWidth + "x" + window.innerHeight)
 
         </script>
 </body>

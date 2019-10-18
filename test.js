@@ -966,7 +966,7 @@ var lucy = new Person01('lucy', 21);
 lucy.hello();
 // 使用 extends 关键字
 class Man extends Person01 {
-    constructor (name, age, height) {
+    constructor(name, age, height) {
         // 使用super调用父类的构造方法
         super(name, age);
         this.height = height;
@@ -978,3 +978,23 @@ class Man extends Person01 {
 }
 var Tom = new Man('tom', 22, 178);
 Tom.myHeight();
+
+// 定义Dog类继承Animal
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+class Dog extends Animal {
+    constructor(name, color) {
+        super(name);
+        this.color = color;
+    }
+    say() {
+        console.log("Hello, I am " + this.name);
+    }
+}
+
+var mimi = new Dog("mini", "black");
+mimi.say();
