@@ -9,63 +9,72 @@
 </head>
 
 <body>
-    <script>
-            function count() {
-                var arr = [];
-                for (let i = 1; i <= 3; i++) {
-                    arr.push(function () {
-                        return i * i;
-                    });
-                }
-                // console.log(i);
-                return arr;
-            }
-            // 在这里count的类型是function
-            console.log(typeof count);
-            console.log(count instanceof Number);
-            console.log(count instanceof Function);
-            console.log(count instanceof Array);
-            console.log(count instanceof Object);
-            var res = count();
-            console.log(res);
-            console.log(res[0]());
-            console.log(res[1]());
-            console.log(res[2]());
+    <div>
+        <button type="button" onclick="testReload()">
+            测试Location
+        </button>
+    </div>
 
-            // 生成器 generator: 使用function*定义
-            // 除了return语句, 还可以用yield返回多次
-            // 举例: 生成斐波那契数列
-            function* fib(max) {
-                var a = 0,
-                    b = 1,
-                    n = 0;
-                while (n < max) {
-                    yield a;
-                    [a, b] = [b, a + b];
-                    n++;
-                }
-            }
-            var foo = fib(5);
-            console.log(foo);
-            console.log(foo.next());
+    <div>
+        <dl id="drink-menu" style="border:solid 1px #ccc;padding:6px;">
+            <dt>摩卡</dt>
+            <dd>热摩卡咖啡</dd>
+            <dt>酸奶</dt>
+            <dd>北京老酸奶</dd>
+            <dt>果汁</dt>
+            <dd>鲜榨苹果汁</dd>
+        </dl>
+    </div>
+    <p id="js">JavaScript</p>
+    <div id="test-div">
+        <div class="c-red">
+            <p id="test-p">JavaScript</p>
+            <p>Java</p>
+        </div>
+        <div class="c-red c-green">
+            <p>Python</p>
+            <p>Ruby</p>
+            <p>Swift</p>
+        </div>
+        <div class="c-green">
+            <p>Scheme</p>
+            <p>Haskell</p>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <p id="p-id">
+            ...
+        </p>
+        <p id="no-display" style="display:none">
+            不可见标签
+        </p>
+    </div>
+    <div id="list">
+        <p id="java">Java</p>
+        <p id="python">Python</p>
+        <p id="scheme">Scheme</p>
+    </div>
+    <ol id="test-list">
+        <li class="lang">Scheme</li>
+        <li class="lang">JavaScript</li>
+        <li class="lang">Python</li>
+        <li class="lang">Ruby</li>
+        <li class="lang">Haskell</li>
+    </ol>
+    <p id="to-be-removed">
+        to-be-removed
+    </p>
+    <ul id="test-list01">
+        <li>JavaScript</li>
+        <li>Swift</li>
+        <li>HTML</li>
+        <li>ANSI C</li>
+        <li>CSS</li>
+        <li>DirectX</li>
+    </ul>
 
-            var url = 'https://api.openweathermap.org/data/2.5/forecast?q=Beijing,cn&appid=800f49846586c3ba6e7052cfc89af16c';
-            function WeatherInfo(data) {
-                var info = {
-                    city: data.city.name,
-                    weather: data.list[0].weather[0].main,
-                    time: data.list[0].dt_txt
-                };
-                console.log(JSON.stringify(info, null, "  "));
-            }
-            // var data = $.getJSON(url, WeatherInfo);
-            // console.log(data);
-
-            // 浏览器对象: window
-            console.log("浏览器窗口大小(外宽高): " + window.outerWidth + "x" + window.outerHeight)
-            console.log("显示网页布局大小(内宽高): " + window.innerWidth + "x" + window.innerHeight)
-
-        </script>
+    <script src="./Untitled-1.js"></script>
 </body>
 
 </html>
