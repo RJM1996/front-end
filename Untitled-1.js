@@ -206,3 +206,112 @@ function deleteElement(list) {
     }
 }
 deleteElement(list);
+// 操作表单
+// 获取用户输入: 适用于text password hidden select
+var input = document.getElementById('email');
+console.log(input.value);
+// 单选框和复选框, 需要使用checked判断
+var Mon = document.getElementById("monday");
+var Tue = document.getElementById("tuesday");
+console.log(Mon);
+console.log(Mon.value + " " + Tue.value);
+// 如果Mon是被选中的状态,那么checked属性为true
+Mon.checked = true;
+console.log(Mon.checked);
+// HTML5控件: date datetime datetime-local color
+// 提交表单信息: 通过form表单的submit按钮提交一个表单
+function doSubmitForm() {
+    document.getElementById("test-form").submit();
+}
+// 响应form的onsubmit()事件
+function checkForm() {
+    var form = document.getElementById("test-form");
+    var pwd = document.getElementById('password');
+    pwd.value = md5(pwd.value);
+    console.log(pwd.value);
+    return true;
+}
+// 检查注册信息是否符合要求
+function checkRegisterForm() {
+    var username = document.getElementById("username01").value;
+    var password = document.getElementById("password01").value;
+    var password2 = document.getElementById("password-2").value;
+    // 用户名必须是3-10位英文或数字
+    // 密码必须6-20位
+    // 两次输入密码必须一致
+    const usernameReg = /^[0-9a-zA-Z]{3,10}$/;
+    const passwordReg = /.{6,20}/;
+    if (usernameReg.test(username)
+        && passwordReg.test(password)
+        && password === password2) {
+        return true;
+    } else {
+        if (!usernameReg.test(username)) {
+            alert("用户名必须是3-10位英文字母或数字!");
+        } else if (!passwordReg.test(password)) {
+            alert("口令必须是6-20位!")
+        } else if (password !== password2) {
+            alert("两次输入口令不一致!")
+        }
+    }
+    return false;
+}
+
+// 操作文件: HTML5提供的File API
+// 通过File和FileReader两个主要对象,可以获得文件信息并读取文件
+var inputFile = document.getElementById("test-image-file"),
+    fileInfo = document.getElementById("test-file-info"),
+    preview = document.getElementById("test-image-preview");
+
+inputFile.addEventListener('change', function () {
+    // 清除背景图片
+    preview.style.backgroundImage = "";
+    // 检查是否选择文件
+    if (!inputFile.value) {
+        fileInfo.innerText("还没有选择文件!");
+        return;
+    }
+    // 获取用户选择的文件File对象
+    // 选择的文件保存在FileList对象中,只选了一个文件,那就是files[0]
+    var file = inputFile.files[0];
+    // 获取file信息,修改html内容,显示文件信息
+    fileInfo.innerHTML = "文件名: " + file.name + "<br>" +
+        "文件大小: " + file.size + "<br>" +
+        "修改日期: " + file.lastModifiedDate + "<br>";
+    if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
+        alert('不是有效的图片文件!');
+        return;
+    }
+    // 创建FileReader对象, 读取文件
+    var reader = new FileReader();
+    // 当文件读取完成后, 自动调用此函数, 将图片的base64设置到backgroundImage属性中
+    reader.onload = function (event) {
+        var data = event.target.result;
+        preview.style.backgroundImage = 'url(' + data + ')';
+    };
+    // 以DataURL的形式读取文件:
+    reader.readAsDataURL(file);
+})
+
+// AJAX
+// 1. 创建XMLHttpRequest对象
+var request = new XMLHttpRequest();
+// 2. 监听request的onreadystatechange事件
+request.onreadystatechange = function () {
+    // 当请求状态发生变化时, readyState 属性会发生变化, 该属性有0 1 2 3 4几个取值
+    // 4代表响应完成, 已经接收到全部数据
+    if (request.readyState === 4) {
+        if ((request.status >= 200
+            && request.status < 300)
+            || request.status === 304) {
+            alert("请求成功: " + request.responseText);
+        } else {
+            alert("请求失败: " + request.status);
+        }
+    }
+}
+request.open('get', 'http://localhost:8082/example.txt', true);
+console.log(request.readyState);
+request.send(null);
+console.log(request.readyState);
+

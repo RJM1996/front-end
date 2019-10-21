@@ -998,3 +998,8 @@ class Dog extends Animal {
 
 var mimi = new Dog("mini", "black");
 mimi.say();
+
+const usernameReg = /^[0-9a-zA-Z]{3,10}$/;
+console.log(usernameReg.test("111222"));
+const passwordReg = /.{6,20}/;
+console.log(passwordReg.test("4567"));
