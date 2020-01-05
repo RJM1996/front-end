@@ -5,18 +5,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Hello Vue</title>
 </head>
 
 <body>
-  <div id="app">{{message}}</div>
+  <div id="app">
+    <h2>当前计数: {{counter}}</h2>
+    <button @click="counter++">+</button>
+    <button @click="counter--">-</button>
+  </div>
   <!-- 引入 vue.js  -->
-  <script src="../vue.js"></script>
+  <script src="../../vue.js"></script>
   <script>
     const app = new Vue({
       el: '#app',
       data: {
-        message: 'Hello vue'
+        message: 'Hello vue',
+        counter: 0
       }
     })
   </script>
