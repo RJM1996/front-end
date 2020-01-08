@@ -2,8 +2,16 @@
 # 然后在项目根目录下执行 sh test.sh
 # 即可生成 views, api, mock, store 相关文件和代码
 
-module_name="Permissions"
-view_name="userManage"
+# 获取命令行参数
+module_name=$1
+view_name=$2
+
+if [[ $module_name && $view_name ]]; then
+    echo "start..."
+else
+    echo "请输入模块名称"
+    exit -1
+fi
 
 # 递归创建目录
 mkdir -p ./src/api/${module_name}/
@@ -32,13 +40,13 @@ echo "
 import axios from '@/libs/axios'
 
 // 接口定义
-" > ./src/api/${module_name}/${view_name}.js
+" >./src/api/${module_name}/${view_name}.js
 
 echo "
 import { getParams } from '@/libs/util'
 
 // 模拟数据定义
-" > ./src/mock/${module_name}/${view_name}.js
+" >./src/mock/${module_name}/${view_name}.js
 
 echo "
 import config from '@/config'
@@ -58,7 +66,7 @@ export default {
   getters,
   actions
 }
-" > ./src/store/${module_name}/${view_name}.js
+" >./src/store/${module_name}/${view_name}.js
 
 echo "
 <template>
@@ -81,9 +89,9 @@ export default {
 
 <style scoped>
 </style>
-" > ./src/views/pages/${module_name}/${view_name}.vue
+" >./src/views/pages/${module_name}/${view_name}.vue
 
-echo "// 本地数据" > ./src/views/datas/${module_name}/${view_name}.js
+echo "// 本地数据" >./src/views/datas/${module_name}/${view_name}.js
 
 if [ $? -eq 0 ]; then
     echo "Done"
