@@ -1,5 +1,6 @@
-# 使用方法: 修改需要添加的模块名称和视图文件名称
-# 然后在项目根目录下执行 sh test.sh
+# 使用方法:
+# 在项目根目录下执行 sh test.sh '模块名称' '视图名称'
+# 例如 sh test.sh AccessManage userManage
 # 即可生成 views, api, mock, store 相关文件和代码
 
 # 获取命令行参数
@@ -76,7 +77,7 @@ echo "
 import { mapActions, mapState } from 'vuex'
 
 export default {
-  name: "${view_name}",
+  name: "\'${view_name}\'",
   components: {},
  data () {
    return {}
