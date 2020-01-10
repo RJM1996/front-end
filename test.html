@@ -47,6 +47,27 @@
         },
         changeColor(index) {
           this.flag = index
+        },
+        getQueryStringArgs () {
+          // 获取查询字符串并去掉开头的?
+          // let search = location.search,
+          let search = '?name=tom&age=12&sex=man',
+          queryString = search.length > 0 ? search.substring(1) : "",
+          // 保存查询参数的对象
+          queryArgs = {},
+          // 获取每一项, 存为数组
+          itemsArray = queryString.length ? queryString.split('&') : []
+          // 循环"查询参数数组"
+          itemsArray.forEach((Element) => {
+            let item = Element.split('='),
+            name = decodeURIComponent(item[0]),
+            value = decodeURIComponent(item[1])
+            if (name.length) {
+              queryArgs[name] = value
+            }
+          })
+          console.log(JSON.stringify(queryArgs))
+          return queryArgs
         }
       }
     })

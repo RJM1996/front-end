@@ -46,9 +46,7 @@ export const demo = data => {
     url: '',
     data
   })
-}
-
-" >./src/api/${module_name}/${view_name}.js
+}" >./src/api/${module_name}/${view_name}.js
 
 echo "
 import { getParams } from '@/libs/util'
@@ -62,9 +60,7 @@ export const demo = req => {
     msg: '',
     data: content
   }
-}
-
-" >./src/mock/${module_name}/${view_name}.js
+}" >./src/mock/${module_name}/${view_name}.js
 
 echo "
 import config from '@/config'
@@ -109,9 +105,7 @@ export default {
   state,
   mutations,
   actions
-}x
-
-" >./src/store/${module_name}/${view_name}.js
+}" >./src/store/${module_name}/${view_name}.js
 
 echo "
 <template>
@@ -130,18 +124,17 @@ export default {
     return {}
   },
   computed: {
-    ...mapState("\'${view_name}\'", [''])
+    ...mapState("\'${view_name}\'", [])
   },
   methods: {
-    ...mapActions("\'${view_name}\'", [''])
+    ...mapActions("\'${view_name}\'", [])
   },
   created () {}   
 }
 </script>
 
 <style scoped lang="less">
-</style>
-" >./src/views/pages/${module_name}/${view_name}.vue
+</style>" >./src/views/pages/${module_name}/${view_name}.vue
 
 echo "// 本地数据" >./src/views/datas/${module_name}/${view_name}.js
 
@@ -191,6 +184,8 @@ storeStr="import ${view_name} from './${module_name}/${view_name}'"
 gsed -i "${mockRow}"a\\"${mockStr}" src/mock/index.js
 gsed -i "${storeRow}"a\\"${storeStr}" src/store/index.js
 gsed -i "${storeModuleRow}"a\\"    ${view_name}," src/store/index.js
+# 注: 因为Mac中的sed命令比较旧, 很多功能有限制, 故需要安装gsed
+# brew install gnu-sed
 
 if [ $? -eq 0 ]; then
     echo "Done"
