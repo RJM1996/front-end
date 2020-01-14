@@ -19,8 +19,8 @@ console.log(log(10))
 console.log(sin(10))
 
 // 对数组进行对象属性的解构
-let arr = [1, 2, 3]
-let { 0: first, 1: second, 2: last } = arr
+var arr = [1, 2, 3]
+var { 0: first, 1: second, 2: last } = arr
 console.log(first, second, last)
 
 // 字符串的解构
@@ -107,4 +107,79 @@ function getQueryStringArgs() {
   return queryArgs
 }
 
-getQueryStringArgs ()
+getQueryStringArgs()
+
+console.log(Math.max(...[12, 23, 34]))
+console.log(new Date(...[2019, 0, 1]))
+console.log(new Date('2019-01-23'))
+console.log(new Date())
+
+// 将扩展运算符用于数组赋值, 只能放在参数最后一位
+var [first, ...rest] = [1, 2, 3, 4, 5, 6, 7]
+// var [...rest, last] = [1,2,3,4,5,6,7]  报错
+console.log(first)
+console.log(rest)
+console.log([...'hello'])
+
+let arrayLike = {
+  '0': 'a',
+  '1': 'b',
+  '2': 'c',
+  length: 3
+}
+
+arrayLike = Array.from(arrayLike)
+console.log(arrayLike)
+
+var fun = function () { }
+console.log(fun.name) // fun
+
+var fun = function baz() { }
+console.log(fun.name) // baz
+console.log((new Function).name)
+
+const headAndTail = (head, ...tail) => [head, tail];
+
+console.log(headAndTail(1, 2, 3, 4, 5))
+
+// 箭头函数体内的this对象总是指向函数定义生效时所在的对象!
+function func() {
+  setTimeout(() => {
+    console.log('id:', this.id);
+  }, 100);
+}
+
+var id = 111
+// func.call({ id: 21 })
+// func.call({})
+// func()
+
+// 箭头函数中没有自己的this对象,而是引用的外层代码的this
+function Timer() {
+  this.s1 = 0;
+  this.s2 = 0;
+  // 箭头函数
+  setInterval(() => { this.s1++ }, 1000);
+  // 普通函数
+  setInterval(function () {
+    this.s2++;
+  }, 1000);
+}
+
+// var timer = new Timer();
+
+// setTimeout(() => console.log('s1: ', timer.s1, '\nthis.s1: ', this.s1), 3100);
+// setTimeout(() => console.log('s2: ', timer.s2, '\nthis.s2: ', this.s2), 3100);
+// setTimeout(() => console.log('s2: ', timer.s2), 3100);
+
+function fibonaci(n, ac1 = 1, ac2 = 1) {
+  return n <= 1 ? ac2 : fibonaci(n - 1, ac2, ac1 + ac2)
+}
+console.log(fibonaci(100))
+
+console.log(Object.is({}, {}))
+console.log(Object.is(111, 111))
+console.log(Object.is(+0, -0))
+console.log(+0 === -0)
+console.log(NaN === NaN)
+console.log(Object.is(NaN, NaN))
