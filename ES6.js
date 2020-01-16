@@ -183,3 +183,94 @@ console.log(Object.is(+0, -0))
 console.log(+0 === -0)
 console.log(NaN === NaN)
 console.log(Object.is(NaN, NaN))
+
+// 生成promise实例
+var promise = new Promise((resolve, reject) => {
+  if (true) { // 异步操作成功
+    resolve()
+  } else { // 异步操作失败
+    reject()
+  }
+})
+
+function timeout(ms) {
+  return new Promise((resolve, reject) => {
+    // 其中第三个参数 'done', 就是 resolve 函数的参数
+    setTimeout(resolve, ms, 'done')
+  })
+}
+// promise实例的then方法可以指定resolve和reject状态的回调函数
+timeout(1000).then((res) => {
+  // 这里的res即为上面的'done'
+  console.log(res)
+})
+
+var p1 = new Promise(function (resolve, reject) {
+  setTimeout(() => reject(new Error('fail')), 3000)
+})
+
+var p2 = new Promise(function (resolve, reject) {
+  setTimeout(() => resolve(p1), 1000)
+})
+
+// then方法指定resolve状态的回调函数
+// catch方法指定reject状态的回调函数
+// 其中then方法中抛出的异常也会被catch捕获
+p2.then(result => console.log(result)).catch(error => console.log(error))
+
+// Promise.resolve: 将现有对象转为promise对象
+var p = Promise.resolve('Hello')
+p.then((res) => {
+  console.log(res)
+})
+
+function eventLoop() {
+  console.log(1)
+  process.nextTick(() => {
+    console.log(8)
+    setTimeout(() => {
+      console.log(9)
+    })
+  })
+  setTimeout(() => {
+    console.log(2)
+    new Promise(() => {
+      console.log(11)
+    })
+  })
+  requestIdleCallback(() => {
+    console.log(7)
+  })
+  // 特殊说明： new Promise（）属于主线程任务
+  let promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log(10)
+    })
+    resolve()
+    // 这个console也属于主线程任务
+    console.log(4)
+  })
+  fn()
+  console.log(3)
+  promise.then(() => {
+    console.log(12)
+  })
+  function fn() {
+    console.log(6)
+  }
+}
+eventLoop()
+
+// 执行栈 宏任务(macroTasks) 微任务(microTasks)
+// 执行过程:
+// 1. 将主线程任务当做一个macroTask, 放入执行栈中开始执行
+// 2. 执行过程中, 遇到了macroTask, 则将其放入macroTasks队列, 继续执行后续代码
+// 3. 如果遇到microTask, 则将其放入microTasks队列, 继续执行后续代码
+// 4. 执行栈中的任务执行完毕后, 将microTasks队列中的任务放入执行栈执行
+// 5. 执行完毕后, 再从macroTasks队列取出一个macroTask放入执行栈开始执行
+// 这一过程被称为"事件循环"
+// 总结: 
+// 1. 一个事件循环总是从一个macroTask开始执行
+// 2. 一个事件循环中, 只执行一个macroTask, 但可能执行多个microTask
+// 3. 执行栈中的任务产生的microTask会在当前事件循环中执行
+// 4. 执行栈中的任务产生的macroTask会在下一个事件循环中执行
