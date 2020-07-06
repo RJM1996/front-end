@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "removeComments": true,
+    "noEmitOnError": true, // 遇到错误不产生编译文件
+    "outFile": "./outdir/app.js"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

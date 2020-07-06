@@ -200,29 +200,29 @@ function timeout(ms) {
   })
 }
 // promise实例的then方法可以指定resolve和reject状态的回调函数
-timeout(1000).then((res) => {
-  // 这里的res即为上面的'done'
-  console.log(res)
-})
+// timeout(1000).then((res) => {
+//   // 这里的res即为上面的'done'
+//   console.log(res)
+// })
 
-var p1 = new Promise(function (resolve, reject) {
-  setTimeout(() => reject(new Error('fail')), 3000)
-})
+// var p1 = new Promise(function (resolve, reject) {
+//   setTimeout(() => reject(new Error('fail')), 3000)
+// })
 
-var p2 = new Promise(function (resolve, reject) {
-  setTimeout(() => resolve(p1), 1000)
-})
+// var p2 = new Promise(function (resolve, reject) {
+//   setTimeout(() => resolve(p1), 1000)
+// })
 
 // then方法指定resolve状态的回调函数
 // catch方法指定reject状态的回调函数
 // 其中then方法中抛出的异常也会被catch捕获
-p2.then(result => console.log(result)).catch(error => console.log(error))
+// p2.then(result => console.log(result)).catch(error => console.log(error))
 
-// Promise.resolve: 将现有对象转为promise对象
-var p = Promise.resolve('Hello')
-p.then((res) => {
-  console.log(res)
-})
+// // Promise.resolve: 将现有对象转为promise对象
+// var p = Promise.resolve('Hello')
+// p.then((res) => {
+//   console.log(res)
+// })
 
 function eventLoop() {
   console.log(1)
@@ -259,9 +259,19 @@ function eventLoop() {
     console.log(6)
   }
 }
-eventLoop()
+// eventLoop()
 
 // 执行栈 宏任务(macroTasks) 微任务(microTasks)
+// macroTasks:
+//  - I/O
+//  - UI渲染
+//  - setTimeout
+//  - setInterval
+//  - script标签中的整体代码
+// microTasks:
+//  - promise
+//  - Object.obserce
+//  - process.nextTick
 // 执行过程:
 // 1. 将主线程任务当做一个macroTask, 放入执行栈中开始执行
 // 2. 执行过程中, 遇到了macroTask, 则将其放入macroTasks队列, 继续执行后续代码
@@ -274,3 +284,59 @@ eventLoop()
 // 2. 一个事件循环中, 只执行一个macroTask, 但可能执行多个microTask
 // 3. 执行栈中的任务产生的microTask会在当前事件循环中执行
 // 4. 执行栈中的任务产生的macroTask会在下一个事件循环中执行
+
+var arr = ['aaa', 'bbb', 'ccc']
+var iter = arr[Symbol.iterator]()
+console.log(iter.next())
+console.log(iter.next())
+console.log(iter.next())
+console.log(iter.next())
+// 对于数组, for...in...循环获得索引, for...of...循环获得数组元素
+for (let i in arr) {
+  console.log(i)
+}
+for (let i of arr) {
+  console.log(i)
+}
+arr.forEach((element, index) => {
+  console.log(index, element)
+})
+
+var set01 = new Set(['Tom', 'Cat', 'Jerry', 'Tom'])
+for (const iterator of set01) {
+  console.log(iterator)
+}
+for (const iterator of set01.entries()) {
+  console.log(iterator)
+}
+
+var map01 = new Map();
+map01.set('age', 12)
+map01.set('sex', 'man')
+map01.set('name', 'Cat')
+for (const iterator of map01) {
+  // iterator是一个数组, 分别为成员的键名和键值
+  console.log(iterator)
+}
+
+arrayLike = { 
+  length: 4, 
+  0: 'a', 
+  1: 'b', 
+  2: 'ccc', 
+  3: 'ddd' 
+}
+
+// 报错
+// for (let x of arrayLike) {
+//   console.log(x);
+// }
+
+// 正确
+for (let x of Array.from(arrayLike)) {
+  console.log(x);
+}
+
+for (let x of 'a\uD83D\uDC0A') {
+  console.log(x);
+}
