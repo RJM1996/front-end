@@ -3,15 +3,17 @@ const router = new Router();
 const service = require("./service");
 const jwt = require("jsonwebtoken");
 const secret = "12l3k1j23l12kjdsafdmysslksj";
+const koaJwt = require('koa-jwt')({secret});
 
 let mysqler;
 (async function () {
   mysqler = await service.connectDatabase();
 })();
 
+
 // 图片上传接口
-router.post("/upload", async (ctx) => {
-  const uid = checkTokenAngGetUid(ctx);
+router.post("/upload", koaJwt, async (ctx) => {
+  const uid = ctx.state.user.uid
 
   const { img } = ctx.request.files;
   const result1 = service.saveImg(img, img.name);
@@ -37,8 +39,8 @@ router.post("/upload", async (ctx) => {
 });
 
 // 图片获取接口
-router.get("/getPhotos", async (ctx) => {
-  const uid = checkTokenAngGetUid(ctx);
+router.get("/getPhotos", koaJwt, async (ctx) => {
+  const uid = ctx.state.user.uid
   const result = await service.getAllImg(mysqler, uid);
   const username = await service.getUserName(mysqler, uid);
   
@@ -100,9 +102,11 @@ router.post("/login", async (ctx) => {
 module.exports = router;
 
 function checkTokenAngGetUid(ctx) {
-  const token = ctx.get("Authentication");
+  const token = ctx.get("authorization");
+  console.log(token)
   let uid = -1;
   jwt.verify(token, secret, (err, decoded) => {
+    console.log(err, decoded)
     if (err) {
       ctx.body = {
         state: 0,
