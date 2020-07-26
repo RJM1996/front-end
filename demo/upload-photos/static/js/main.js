@@ -7,9 +7,10 @@ const imgFileAdd = document.querySelector(".imgFile-add");
 const showContainer = document.querySelector(".showContainer");
 const loadContainer = document.querySelector(".loadContainer");
 const uploadBtn = document.querySelector(".uploadBtn");
+const logoutElement = document.querySelector('.logout')
 
 // 每次刷新页面就展示所有图片
-getAllImg()
+getAllImg();
 
 let uploadImgList = [];
 uploadBtn.addEventListener("click", async () => {
@@ -21,8 +22,19 @@ uploadBtn.addEventListener("click", async () => {
   uploadCompleted();
 });
 
+logoutElement.addEventListener('click', ()=>{
+  logout()
+})
+
+function logout() {
+  // 删除token
+  localStorage.removeItem('token')
+  // 跳转到登录页
+  window.location.href = '/index.html'
+}
+
 function uploadCompleted() {
-  alert('上传成功！')
+  alert("上传成功！");
   reset();
   getAllImg();
 }
@@ -34,29 +46,38 @@ function reset() {
   document.querySelector(".masking").style.display = "none";
 }
 
-function showAllImg(xhr) {
-  let arr = xhr.response;
-  arr = JSON.parse(arr)
-  const photoContainer =  document.querySelector('.photoContainer')
-  photoContainer.innerHTML = ''
-  arr.forEach((img) => {
+function showAllImg(res) {
+  const username = res.data.username
+  const photos = res.data.photos
+  const photoContainer = document.querySelector(".photoContainer");
+  const usernameEle = document.querySelector('.username')
+  usernameEle.innerText = username
+  photoContainer.innerHTML = "";
+  photos.forEach((img) => {
     const imgHtml = `
     <div class="photoItem">
-    <img src="${img.url}">
-    <span>${img.name}</span>
+      <img src="${img.url}">
+      <span>${img.name}</span>
     </div>`;
-    const item = document.createElement('div')
-    item.innerHTML = imgHtml
-    photoContainer.appendChild(item)
+    const item = document.createElement("div");
+    item.innerHTML = imgHtml;
+    photoContainer.appendChild(item);
   });
 }
 
-function getAllImg() { 
+function getAllImg() {
   const xhr = new XMLHttpRequest();
   xhr.open("get", "/getPhotos");
+  const token = localStorage.getItem("token");
+  xhr.setRequestHeader("Authentication", token);
   xhr.send();
   xhr.onload = () => {
-    showAllImg(xhr);
+    const res = JSON.parse(xhr.response)
+    if(+res.code === 200) {
+      showAllImg(res);
+    } else {
+      alert('获取数据失败')
+    }
   };
 }
 

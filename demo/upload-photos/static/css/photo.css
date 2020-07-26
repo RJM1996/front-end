@@ -7,6 +7,20 @@
   min-height: 100vh;
 }
 
+.userInfo {
+  position: absolute;
+  right: 0px;
+  width: 80px;
+}
+.username {
+  font-size: 20px;
+  font-weight: bold;
+}
+.logout {
+  font-size: 12px;
+  color: #4798d6;
+}
+
 .photoHeader {
   width: 100%;
   display: flex;
