@@ -4,3 +4,5 @@
  - mysql2
  - moment
  - xhr
+ - jwt
+ - koa-jwt
