@@ -69,7 +69,7 @@ function getAllImg() {
   const xhr = new XMLHttpRequest();
   xhr.open("get", "/getPhotos");
   const token = localStorage.getItem("token");
-  xhr.setRequestHeader("Authentication", token);
+  xhr.setRequestHeader("Authorization", 'Bearer ' + token);
   xhr.send();
   xhr.onload = () => {
     const res = JSON.parse(xhr.response)

@@ -11,7 +11,6 @@ app.use(serve(__dirname + "/static"))
 app.use(
   koaJwt({
     secret,
-    passthrough: true
   }).unless({
     path: [/^\/login/],
   })

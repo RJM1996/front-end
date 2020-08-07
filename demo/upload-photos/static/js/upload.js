@@ -6,7 +6,7 @@ export function upload(previewImg) {
     const xhr = new XMLHttpRequest();
     xhr.open("post", "/upload");
     const token = localStorage.getItem("token");
-    xhr.setRequestHeader("Authentication", token);
+    xhr.setRequestHeader("Authorization", 'Bearer ' + token);
     xhr.onload = () => {
       resolve(xhr.response);
     };
