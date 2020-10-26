@@ -121,6 +121,24 @@ router.post('/getTaskStatus', (ctx) => {
   ctx.body = statusResp
 })
 
+router.post('/admin/login', (ctx) => {
+  const res = {
+    code: 200,
+    msg: 'OK',
+    content: '登录成功'
+  }
+  ctx.body = res
+})
+
+router.post('/test/getTestData', (ctx) => {
+  const res = {
+    code: 200,
+    msg: 'OK',
+    content: 'TestData'
+  }
+  ctx.body = res
+})
+
 app.use(router.routes())
 
 app.listen(3000, () => {
