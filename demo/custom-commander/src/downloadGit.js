@@ -14,11 +14,12 @@ let downGit = (name) => {
     url,
     name,
     {
-      clone: false
+      clone: false,
     },
     (err) => {
       if (err) {
-        console.log(chalk.red(err))
+        const str = chalk.red(err)
+        spinner.fail(str)
       } else {
         const str = `${chalk.green(name)} 创建成功`
         spinner.succeed(str)
