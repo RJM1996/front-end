@@ -74,20 +74,20 @@ router.post('/getlog', (ctx) => {
 
 let statusNum = 0
 let statusResp = {
-    data: {
-      modelId: 43,
-      modelStatus: 'toRun',
-      reading: '', // 训练数据读取
-      processing: '', // 数据预处理
-      training: '', // 模型训练
-      evaluation: '' // 模型评估
-    },
-    resp_code: 200,
-    resp_msg: 'OK'
-  }
+  data: {
+    modelId: 43,
+    modelStatus: 'toRun',
+    reading: '', // 训练数据读取
+    processing: '', // 数据预处理
+    training: '', // 模型训练
+    evaluation: '' // 模型评估
+  },
+  resp_code: 200,
+  resp_msg: 'OK'
+}
 router.post('/getTaskStatus', (ctx) => {
   statusNum += 1
-  if(statusNum === 2) {
+  if (statusNum === 2) {
     statusResp.data = {
       modelId: 43,
       modelStatus: 'running',
@@ -97,7 +97,7 @@ router.post('/getTaskStatus', (ctx) => {
       evaluation: '' // 模型评估
     }
   }
-  if(statusNum === 4) {
+  if (statusNum === 4) {
     statusResp.data = {
       modelId: 43,
       modelStatus: 'running',
@@ -107,7 +107,7 @@ router.post('/getTaskStatus', (ctx) => {
       evaluation: '' // 模型评估
     }
   }
-  if(statusNum === 6) {
+  if (statusNum === 6) {
     statusResp.data = {
       modelId: 43,
       modelStatus: 'toRun',
@@ -117,7 +117,7 @@ router.post('/getTaskStatus', (ctx) => {
       evaluation: 'runSuccess' // 模型评估
     }
   }
-  
+
   ctx.body = statusResp
 })
 
@@ -135,6 +135,20 @@ router.post('/test/getTestData', (ctx) => {
     code: 200,
     msg: 'OK',
     content: 'TestData'
+  }
+  ctx.body = res
+})
+
+router.post('/ekyc/liveness', (ctx) => {
+  const res = {
+    status: 200,
+    statusMsg: 'OK',
+    content: {
+      confidence: 0.889,
+      realFace: true,
+      imgUrl: '/src/common/icons/real-face.jpg' // TODO: 带框的照片地址
+      // errMsg: 'error msg'
+    }
   }
   ctx.body = res
 })
