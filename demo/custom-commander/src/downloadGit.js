@@ -5,7 +5,7 @@ const ora = require('ora')
 const chalk = require('chalk')
 
 // 模板项目github地址
-const url = 'RJM1996/temperature-monitoring'
+const url = 'RJM1996/manage-system-template'
 let downGit = (name) => {
   const spinner = ora('正在拉取模板...')
   spinner.start()
