@@ -1,5 +1,6 @@
 {
   "name": "rjm-cli",
+  "keywords": ["rjm", "rjm-cli"],
   "version": "0.0.1",
   "description": "自定义脚手架",
   "main": "main.js",

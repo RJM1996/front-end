@@ -4,8 +4,8 @@ const downLoad = require('download-git-repo')
 const ora = require('ora')
 const chalk = require('chalk')
 
-let url = 'RJM1996/temperature-monitoring'
-let clone = false
+// 模板项目github地址
+const url = 'RJM1996/temperature-monitoring'
 let downGit = (name) => {
   const spinner = ora('正在拉取模板...')
   spinner.start()
@@ -14,7 +14,7 @@ let downGit = (name) => {
     url,
     name,
     {
-      clone
+      clone: false
     },
     (err) => {
       if (err) {
