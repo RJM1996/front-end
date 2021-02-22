@@ -5,7 +5,8 @@ const ora = require('ora')
 const chalk = require('chalk')
 
 // 模板项目github地址
-const url = 'RJM1996/manage-system-template'
+// const url = 'RJM1996/manage-system-template'
+const url = 'direct:https://gitee.com/rjm1996/manage-system-template.git'
 let downGit = (name) => {
   const spinner = ora('正在拉取模板...')
   spinner.start()
@@ -14,7 +15,7 @@ let downGit = (name) => {
     url,
     name,
     {
-      clone: false,
+      clone: true,
     },
     (err) => {
       if (err) {

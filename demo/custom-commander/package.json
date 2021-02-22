@@ -1,7 +1,7 @@
 {
   "name": "rjm-cli",
-  "keywords": ["rjm", "rjm-cli"],
-  "version": "0.1.0",
+  "keywords": ["rjm", "rjm-cli", "manage", "system"],
+  "version": "0.1.1",
   "description": "管理系统开发模板脚手架",
   "main": "main.js",
   "scripts": {
