@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
+    "strict": true,
     "removeComments": true,
     "noEmitOnError": true, // 遇到错误不产生编译文件
     "outFile": "./outdir/app.js"
   },
   "include": [
-    "./src/**/*"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules"
