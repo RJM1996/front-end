@@ -1,6 +1,6 @@
 {
   ;[1, 2, 3].forEach(function (item, index, arr) {
-    // console.log(item, index, arr)
+    console.log(item, index, arr)
   })
 }
 
@@ -26,12 +26,13 @@
   }
 
   each([1, 2, 3], function (index, item) {
-    console.log(this)
+    // console.log(this)
     console.log(index, item)
+    // return false
   })
 
   each({ a: 1, b: 2 }, function (index, value) {
-    console.log(this)
+    // console.log(this)
     console.log(index, value)
   })
 }
