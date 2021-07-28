@@ -1,18 +1,24 @@
 <template>
   <div id="app">
     <SingleFileUpload />
+    <MultipleFileUpload />
+    <DirFileUpload />
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
 import SingleFileUpload from './components/SingleFileUpload.vue';
+import MultipleFileUpload from './components/MultipleFileUpload.vue';
+import DirFileUpload from './components/DirFileUpload.vue';
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
-    SingleFileUpload
+    SingleFileUpload,
+    MultipleFileUpload,
+    DirFileUpload
   }
 }
 </script>
@@ -24,6 +30,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 20px;
+}
+#app > * {
+  width: 500px;
+  padding: 20px;
+  border: 1px solid;
 }
 </style>

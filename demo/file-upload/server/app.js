@@ -4,6 +4,7 @@ const serve = require('koa-static')
 const cors = require('@koa/cors')
 const multer = require('@koa/multer')
 const Router = require('@koa/router')
+const fse = require('fs-extra')
 
 const app = new Koa()
 const router = new Router()
@@ -24,12 +25,32 @@ const storage = multer.diskStorage({
   }
 })
 
+// 目录上传的存储逻辑
+const dirStorage = multer.diskStorage({
+  destination: async function (req, file, cb) {
+    // images@image-1.jpeg => images/image-1.jpeg
+    let relativePath = file.originalname.replace(/@/g, path.sep)
+    let index = relativePath.lastIndexOf(path.sep)
+    let fileDir = path.join(UPLOAD_DIR, relativePath.substr(0, index))
+    // 确保文件目录存在，若不存在的话，会自动创建
+    await fse.ensureDir(fileDir)
+    cb(null, fileDir)
+  },
+  filename: function (req, file, cb) {
+    // console.log('dirStorage', req, file)
+    let parts = file.originalname.split('@')
+    cb(null, `${parts[parts.length - 1]}`)
+  }
+})
+
 const multerUpload = multer({ storage })
+const multerDirUpload = multer({ storage: dirStorage })
 
 router.get('/', async (ctx) => {
   ctx.body = '欢迎使用文件服务（by rjm）'
 })
 
+// 单文件上传
 router.post(
   '/upload/single',
   async (ctx, next) => {
@@ -49,6 +70,56 @@ router.post(
   },
   multerUpload.single('file')
 )
+// 多文件上传
+router.post(
+  '/upload/multiple',
+  async (ctx, next) => {
+    try {
+      await next()
+      urls = ctx.files.file.map((file) => `${RESOURCE_URL}/${file.originalname}`)
+      ctx.body = {
+        code: 1,
+        msg: '文件上传成功',
+        urls
+      }
+    } catch (error) {
+      ctx.body = {
+        code: 0,
+        msg: '文件上传失败'
+      }
+    }
+  },
+  multerUpload.fields([
+    {
+      name: 'file' // 与FormData表单项的fieldName想对应
+    }
+  ])
+)
+// 目录上传
+router.post(
+  '/upload/dir',
+  async (ctx, next) => {
+    try {
+      await next()
+      urls = ctx.files.file.map((file) => `${RESOURCE_URL}/${file.originalname.replace(/@/g, path.sep)}`)
+      ctx.body = {
+        code: 1,
+        msg: '文件上传成功',
+        urls
+      }
+    } catch (error) {
+      ctx.body = {
+        code: 0,
+        msg: '文件上传失败'
+      }
+    }
+  },
+  multerDirUpload.fields([
+    {
+      name: 'file' // 与FormData表单项的fieldName想对应
+    }
+  ])
+)
 
 // 注册中间件
 app.use(cors())
@@ -56,5 +127,5 @@ app.use(serve(UPLOAD_DIR))
 app.use(router.routes()).use(router.allowedMethods())
 
 app.listen(PORT, () => {
-  console.log(`app starting at port ${PORT}`)
+  console.log(`app starting at: ${RESOURCE_URL}`)
 })

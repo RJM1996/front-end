@@ -1,18 +1,16 @@
 <template>
-  <div id="SingleFileUpload">
-    <h1>单文件上传</h1>
-    <div>
-      <input id="uploadFile" type="file" accept="image/*" />
-      <button id="submit" @click="uploadFile()">上传文件</button>
-    </div>
+  <div>
+    <h1>目录上传</h1>
+    <input id="DirFileUpload" type="file" accept="image/*" webkitdirectory />
+    <button id="submit" @click="uploadFile()">上传文件</button>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import { request } from '../common/axios';
 
 export default {
-  name: 'SingleFileUpload',
+  name: 'DirFileUpload',
 
   components: {},
 
@@ -27,25 +25,23 @@ export default {
 
   methods: {
     async uploadFile () {
-      const uploadFileEle = document.querySelector('#uploadFile')
-      console.log(111, uploadFileEle, uploadFileEle.files)
+      const uploadFileEle = document.getElementById('DirFileUpload')
+      console.log('file: ', uploadFileEle, uploadFileEle.files)
       if (!uploadFileEle.files.length) return
-      const file = uploadFileEle.files[0] // 获取单个文件
+      const files = Array.from(uploadFileEle.files)
       // 省略文件的校验过程，比如文件类型、大小校验
       this.upload({
-        url: '/single',
-        file
+        url: '/dir',
+        files
       })
     },
 
-    upload ({ url, file, fieldName = 'file' }) {
-      const request = axios.create({
-        baseURL: 'http://localhost:3000/upload',
-        timeout: 60000
-      })
+    upload ({ url, files, fieldName = 'file' }) {
       let formData = new FormData()
-      formData.set(fieldName, file)
-      console.log(formData)
+      files.forEach(f => {
+        formData.append(fieldName, f, f.webkitRelativePath.replace(/\//g, "@"))
+      })
+      console.log('formData: ', formData)
       request
         .post(url, formData, {
           // 监听上传进度
@@ -61,9 +57,7 @@ export default {
           console.log(err)
         })
     }
-  },
-
-  created () { },
+  }
 }
 
 </script>
