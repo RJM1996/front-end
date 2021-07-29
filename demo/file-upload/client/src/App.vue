@@ -3,6 +3,7 @@
     <SingleFileUpload />
     <MultipleFileUpload />
     <DirFileUpload />
+    <ZipDirUpload />
   </div>
 </template>
 
@@ -11,6 +12,7 @@ import HelloWorld from './components/HelloWorld.vue'
 import SingleFileUpload from './components/SingleFileUpload.vue';
 import MultipleFileUpload from './components/MultipleFileUpload.vue';
 import DirFileUpload from './components/DirFileUpload.vue';
+import ZipDirUpload from './components/ZipDirUpload.vue';
 
 export default {
   name: 'App',
@@ -18,7 +20,8 @@ export default {
     HelloWorld,
     SingleFileUpload,
     MultipleFileUpload,
-    DirFileUpload
+    DirFileUpload,
+    ZipDirUpload
   }
 }
 </script>

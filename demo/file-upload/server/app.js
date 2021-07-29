@@ -56,10 +56,12 @@ router.post(
   async (ctx, next) => {
     try {
       await next()
+      console.log('file: ', ctx.file)
       ctx.body = {
         code: 1,
         msg: '文件上传成功',
-        url: `${RESOURCE_URL}/${ctx.file.originalname}`
+        url: `${RESOURCE_URL}/${ctx.file.originalname}`,
+        ctx
       }
     } catch (error) {
       ctx.body = {
@@ -101,6 +103,7 @@ router.post(
   async (ctx, next) => {
     try {
       await next()
+      console.log('file2: ', ctx.files)
       urls = ctx.files.file.map((file) => `${RESOURCE_URL}/${file.originalname.replace(/@/g, path.sep)}`)
       ctx.body = {
         code: 1,
@@ -115,6 +118,33 @@ router.post(
     }
   },
   multerDirUpload.fields([
+    {
+      name: 'file' // 与FormData表单项的fieldName想对应
+    }
+  ])
+)
+// 目录压缩上传
+router.post(
+  '/upload/zipDirUpload',
+  async (ctx, next) => {
+    try {
+      await next()
+      console.log('file3: ', ctx.files)
+      ctx.body = {
+        code: 1,
+        msg: '文件上传成功',
+        url: `${RESOURCE_URL}/${ctx.files.file[0].originalname}`
+      }
+    } catch (error) {
+      console.log(error)
+      ctx.body = {
+        code: 0,
+        msg: '文件上传失败',
+        error: error
+      }
+    }
+  },
+  multerUpload.fields([
     {
       name: 'file' // 与FormData表单项的fieldName想对应
     }
