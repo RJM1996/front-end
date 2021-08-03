@@ -10,6 +10,8 @@
     <br>
     <button @click="merge()">图片合成</button>
     <button @click="download()">图片下载</button>
+    <button @click="downloadA()">下载A</button>
+    <button @click="downloadB()">下载B</button>
   </div>
 </template>
 
@@ -18,6 +20,7 @@ import mergeImages from 'merge-images';
 import body from '../../assets/images/body.png';
 import eyes from '../../assets/images/eyes.png';
 import mouth from '../../assets/images/mouth.png';
+import { downloadRequest } from '../../common/axios';
 
 export default {
   name: 'ATagDownload',
@@ -72,6 +75,27 @@ export default {
       aTag.href = downloadUrl
       aTag.click()
       URL.revokeObjectURL(downloadUrl)
+    },
+    downloadA () {
+      const url = "/success.xlsx"
+      // window.open(url)
+      downloadRequest.get(url).then((result) => {
+        console.log(result.data)
+        let contentType = result.headers['content-type'];
+        if (contentType && contentType.indexOf(";") !== -1) {
+          contentType = contentType.substr(0, contentType.indexOf(";"));
+        }
+        console.log(contentType)
+        // const blob = new Blob([result.data], contentType)
+        const blob = this.dataUrlToBlob(result.data, contentType)
+        this.saveFile(blob, 'logo.png')
+      }).catch((err) => {
+        console.log(err)
+      });
+    },
+    downloadB () {
+      const url = "http://localhost:3000/success.xlsx"
+      window.open(url)
     }
   },
   mounted () {
