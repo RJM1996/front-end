@@ -13,6 +13,7 @@ import SingleFileUpload from './components/SingleFileUpload.vue';
 import MultipleFileUpload from './components/MultipleFileUpload.vue';
 import DirFileUpload from './components/DirFileUpload.vue';
 import ZipDirUpload from './components/ZipDirUpload.vue';
+import ATagDownload from './components/download/ATagDownload.vue';
 
 export default {
   name: 'App',
