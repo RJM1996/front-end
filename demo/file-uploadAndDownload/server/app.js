@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     // 设置文件名
-    cb(null, `${file.originalname}`)
+    cb(null, file.fieldname + Date.now())
   }
 })
 
@@ -56,7 +56,6 @@ router.post(
   async (ctx, next) => {
     try {
       await next()
-      console.log('file: ', ctx.file)
       ctx.body = {
         code: 1,
         msg: '文件上传成功',
@@ -64,9 +63,11 @@ router.post(
         ctx
       }
     } catch (error) {
+      console.log(error)
       ctx.body = {
         code: 0,
-        msg: '文件上传失败'
+        msg: '文件上传失败',
+        ctx: ctx.file
       }
     }
   },
@@ -149,6 +150,31 @@ router.post(
       name: 'file' // 与FormData表单项的fieldName想对应
     }
   ])
+)
+
+// 大文件分片上传
+router.post(
+  '/upload/bigFile',
+  async (ctx, next) => {
+    try {
+      await next()
+      // console.log('file: ', ctx.file)
+      ctx.body = {
+        code: 1,
+        msg: '文件上传成功',
+        // url: `${RESOURCE_URL}/${ctx.file.originalname}`,
+        ctx
+      }
+    } catch (error) {
+      console.log(error)
+      ctx.body = {
+        code: 0,
+        msg: '文件上传失败',
+        ctx: ctx
+      }
+    }
+  },
+  multerUpload.single('file')
 )
 
 // 注册中间件
