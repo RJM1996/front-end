@@ -1,7 +1,7 @@
 const path = require('path')
 const Koa = require('koa')
 const util = require('util')
-const serve = require('koa-static')
+const static = require('koa-static')
 const cors = require('@koa/cors')
 const multer = require('@koa/multer')
 const Router = require('@koa/router')
@@ -207,9 +207,12 @@ async function mergeFiles(fileName, token) {
   const targetPath = path.join(UPLOAD_DIR, fileName)
   // 1. 定义一个函数用来读取文件,并向一个地址写入文件
   function readFile(file, ws) {
-    new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       fs.createReadStream(file)
-        .on('data', (data) => ws.write(data))
+        .on('data', (data) => {
+          // console.log(typeof data, data, data.size)
+          return ws.write(data)
+        })
         .on('end', resolve)
         .on('error', reject)
     })
@@ -223,7 +226,7 @@ async function mergeFiles(fileName, token) {
   for (const file of sortFiles) {
     let filePath = path.join(sourceDir, file)
     await readFile(filePath, ws)
-    // await unlink(filePath)
+    await unlink(filePath)
   }
   ws.end()
 }
@@ -261,9 +264,34 @@ router.get('/upload/exist', async (ctx) => {
   }
 })
 
+const send = require('koa-send')
+
+router.get('/download', async (ctx) => {
+  const req = ctx.query
+  console.log(req)
+  
+  let name = '20210621案件-listing-success.xlsx'
+  // let name = 'success.xlsx'
+
+  let path = `${UPLOAD_DIR}/${name}`
+  if (fs.existsSync(path)) {
+    // 中文名需要先编码
+    name = encodeURIComponent(name)
+    ctx.attachment(name)
+    ctx.set('content-disposition', name)
+    ctx.set('Access-Control-Expose-Headers', 'Content-Disposition')
+    await send(ctx, name, { root: __dirname + '/public/upload' })
+  } else {
+    ctx.body = {
+      code: -1,
+      data: '文件不存在'
+    }
+  }
+})
+
 // 注册中间件
 app.use(cors())
-app.use(serve(UPLOAD_DIR))
+app.use(static(UPLOAD_DIR))
 app.use(router.routes()).use(router.allowedMethods())
 
 app.listen(PORT, () => {
