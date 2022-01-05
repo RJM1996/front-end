@@ -61,17 +61,18 @@ router.post(
     try {
       await next()
       ctx.body = {
-        code: 1,
+        code: 200,
         msg: '文件上传成功',
-        url: `${RESOURCE_URL}/${ctx.file.originalname}`,
-        ctx
+        data: {
+          docPath: `${RESOURCE_URL}/${ctx.file.originalname}`
+        }
       }
     } catch (error) {
       console.log(error)
       ctx.body = {
-        code: 0,
+        code: 500,
         msg: '文件上传失败',
-        ctx: ctx.file
+        data: {}
       }
     }
   },
@@ -269,7 +270,7 @@ const send = require('koa-send')
 router.get('/download', async (ctx) => {
   const req = ctx.query
   console.log(req)
-  
+
   let name = '20210621案件-listing-success.xlsx'
   // let name = 'success.xlsx'
 
@@ -286,6 +287,14 @@ router.get('/download', async (ctx) => {
       code: -1,
       data: '文件不存在'
     }
+  }
+})
+
+router.post('/user/login', (ctx) => {
+  console.log('/user/login', ctx)
+  ctx.body = {
+    code: 200,
+    data: 'ok'
   }
 })
 
