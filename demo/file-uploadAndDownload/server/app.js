@@ -12,7 +12,7 @@ const unlink = util.promisify(fs.unlink)
 
 const app = new Koa()
 const router = new Router()
-const PORT = 8080
+const PORT = 3000
 // 上传后资源的URL地址
 const RESOURCE_URL = `http://localhost:${PORT}`
 // 存储上传文件的目录

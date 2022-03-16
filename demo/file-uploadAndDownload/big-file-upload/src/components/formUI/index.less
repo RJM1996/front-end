@@ -1,0 +1,79 @@
+// label最小宽度
+@len: 200;
+.Loop(@index) when (@index < @len) {
+  @size: @index;
+  .Loop(@index + 5);
+  .minWidth@{size} .ant-form {
+    .ant-form-item {
+      .ant-form-item-label {
+        min-width: @size * (1px);
+      }
+    }
+  } 
+}
+.Loop(80);
+.form-ui .ant-form {
+  .d-ib {
+    display: inline-block;
+    position: relative;
+  }
+  .w-100 {
+    width: 100%;
+  }
+  // 上传文件
+  .upload-file-list {
+    width: 100%;
+    .ant-form-item-control-input-content {
+      display: flex;
+      .show-upload-name {
+        flex: 1;
+        .ant-upload {
+          width: 100%;
+          .ant-input-affix-wrapper-disabled {
+            background-color: #fff;
+            cursor: pointer;
+          }
+          .ant-input[disabled] {
+            cursor: pointer;
+            color: rgba(0, 0, 0, 0.85);
+          }
+        }
+      }
+      .upload-tips {
+        margin-left: 10px;
+        line-height: 32px;
+      }
+      .upload-btns {
+        margin: 0px 10px;
+      }
+      .upload-btns:nth-last-of-type(1) {
+        margin-right: 0px;
+      }
+    }
+  }
+  .ant-picker {
+    width: 100%;
+  }
+  .bottom-tips {
+    position: absolute;
+    color: #C6C9D2;
+    left: 0;
+    bottom: -16px;
+  }
+  // 错误提示
+  .ant-form-item-has-error {
+    .ant-input-affix-wrapper-disabled {
+      border-color: #ff4d4f;
+    }
+  }
+}
+// 提示文案
+.tooltip-content {
+  .ant-tooltip-inner {
+    padding: 10px;
+    p {
+      margin: 0;
+      padding: 5px 0px;
+    }
+  }
+}

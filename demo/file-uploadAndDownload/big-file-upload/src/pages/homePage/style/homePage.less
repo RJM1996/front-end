@@ -1,0 +1,85 @@
+.home-page {
+  min-width: 1400px;
+}
+
+.case-info-card {
+  .ant-card {
+    height: 120px;
+    // width: 310px;
+  }
+  .ant-card-body {
+    height: 100%;
+    width: 100%;
+    padding: 20px 0 0 40px;
+    display: flex;
+    .icon {
+      flex: 1;
+    }
+    .content {
+      flex: 2;
+    }
+    .no-select {
+      padding-top: 5px;
+    }
+    .rate-content {
+      padding-left: 10px;
+      flex: 2;
+    }
+    .rate-chart {
+      flex: 3;
+    }
+    .applicant-select {
+      display: inline-block;
+      padding-left: 15px;
+      .ant-select-arrow {
+        right: initial;
+        color: #1890ff;
+      }
+      .ant-select-single.ant-select-show-arrow .ant-select-selection-item,
+      .ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
+        padding-left: 5px;
+      }
+    }
+  }
+  .percentage {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
+
+.case-info-chart {
+  margin-top: 32px;
+  h1 {
+    font-size: 18px;
+  }
+  .ant-card-body {
+    height: 500px;
+    padding: 10px;
+  }
+  .amount-count {
+    .inner-title {
+      width: 200px;
+      height: 80px;
+      position: absolute;
+      top: 120px;
+      left: 50px;
+      text-align: center;
+    }
+    .ant-badge-status-dot {
+      width: 10px;
+      height: 10px;
+    }
+    .applicant-amount {
+      .ant-space-align-center {
+        align-items: flex-start;
+      }
+    }
+  }
+}
+
+.bold-num {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}

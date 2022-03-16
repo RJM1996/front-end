@@ -1,0 +1,128 @@
+.minWidth195 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 195px;
+}
+.minWidth190 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 190px;
+}
+.minWidth185 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 185px;
+}
+.minWidth180 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 180px;
+}
+.minWidth175 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 175px;
+}
+.minWidth170 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 170px;
+}
+.minWidth165 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 165px;
+}
+.minWidth160 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 160px;
+}
+.minWidth155 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 155px;
+}
+.minWidth150 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 150px;
+}
+.minWidth145 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 145px;
+}
+.minWidth140 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 140px;
+}
+.minWidth135 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 135px;
+}
+.minWidth130 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 130px;
+}
+.minWidth125 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 125px;
+}
+.minWidth120 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 120px;
+}
+.minWidth115 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 115px;
+}
+.minWidth110 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 110px;
+}
+.minWidth105 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 105px;
+}
+.minWidth100 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 100px;
+}
+.minWidth95 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 95px;
+}
+.minWidth90 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 90px;
+}
+.minWidth85 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 85px;
+}
+.minWidth80 .ant-form .ant-form-item .ant-form-item-label {
+  min-width: 80px;
+}
+.form-ui .ant-form .d-ib {
+  display: inline-block;
+  position: relative;
+}
+.form-ui .ant-form .w-100 {
+  width: 100%;
+}
+.form-ui .ant-form .upload-file-list {
+  width: 100%;
+}
+.form-ui .ant-form .upload-file-list .ant-form-item-control-input-content {
+  display: flex;
+}
+.form-ui .ant-form .upload-file-list .ant-form-item-control-input-content .show-upload-name {
+  flex: 1;
+}
+.form-ui .ant-form .upload-file-list .ant-form-item-control-input-content .show-upload-name .ant-upload {
+  width: 100%;
+}
+.form-ui .ant-form .upload-file-list .ant-form-item-control-input-content .show-upload-name .ant-upload .ant-input-affix-wrapper-disabled {
+  background-color: #fff;
+  cursor: pointer;
+}
+.form-ui .ant-form .upload-file-list .ant-form-item-control-input-content .show-upload-name .ant-upload .ant-input[disabled] {
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.85);
+}
+.form-ui .ant-form .upload-file-list .ant-form-item-control-input-content .upload-tips {
+  margin-left: 10px;
+  line-height: 32px;
+}
+.form-ui .ant-form .upload-file-list .ant-form-item-control-input-content .upload-btns {
+  margin: 0px 10px;
+}
+.form-ui .ant-form .upload-file-list .ant-form-item-control-input-content .upload-btns:nth-last-of-type(1) {
+  margin-right: 0px;
+}
+.form-ui .ant-form .ant-picker {
+  width: 100%;
+}
+.form-ui .ant-form .bottom-tips {
+  position: absolute;
+  color: #C6C9D2;
+  left: 0;
+  bottom: -16px;
+}
+.form-ui .ant-form .ant-form-item-has-error .ant-input-affix-wrapper-disabled {
+  border-color: #ff4d4f;
+}
+.tooltip-content .ant-tooltip-inner {
+  padding: 10px;
+}
+.tooltip-content .ant-tooltip-inner p {
+  margin: 0;
+  padding: 5px 0px;
+}
