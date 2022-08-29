@@ -12,6 +12,7 @@
     "core-js": "^3.6.5",
     "jszip": "^3.7.0",
     "merge-images": "^2.0.0",
+    "tiny-async-pool": "^2.1.0",
     "vue": "^2.6.11"
   },
   "devDependencies": {
@@ -38,7 +39,9 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "vue/no-unused-components": 1
+      "vue/no-unused-components": 1,
+      "no-unused-vars": 1,
+      "no-debugger": 1
     }
   },
   "browserslist": [

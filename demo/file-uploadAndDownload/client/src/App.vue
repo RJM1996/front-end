@@ -5,6 +5,7 @@
     <DirFileUpload />
     <ZipDirUpload />
     <ATagDownload />
+    <BigFileDownload />
   </div>
 </template>
 
@@ -15,6 +16,7 @@ import MultipleFileUpload from './components/MultipleFileUpload.vue';
 import DirFileUpload from './components/DirFileUpload.vue';
 import ZipDirUpload from './components/ZipDirUpload.vue';
 import ATagDownload from './components/download/ATag-Download.vue';
+import BigFileDownload from './components/download/BigFileDownload.vue';
 
 export default {
   name: 'App',
@@ -24,7 +26,8 @@ export default {
     MultipleFileUpload,
     DirFileUpload,
     ZipDirUpload,
-    ATagDownload
+    ATagDownload,
+    BigFileDownload
   }
 }
 </script>
@@ -38,7 +41,8 @@ export default {
   color: #2c3e50;
   margin-top: 20px;
 }
-#app > * {
+
+#app>* {
   width: 500px;
   padding: 20px;
   border: 1px solid;
