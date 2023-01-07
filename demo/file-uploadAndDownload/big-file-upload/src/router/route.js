@@ -1,6 +1,5 @@
 import Login from '@/pages/login/Login.jsx'
 import Layout from '@/pages/layout/Layout.jsx'
-import HomePage from '@/pages/homePage/HomePage.jsx'
 
 import FormDemo from '@/pages/example/formDemo/FormDemo.jsx'
 import TableDemo from '@/pages/example/tableDemo/TableDemo.jsx'
@@ -18,12 +17,6 @@ export const routes = [
     path: '/',
     component: Layout,
     children: [
-      {
-        path: '/index',
-        component: HomePage,
-        breadList: [{ title: '首页' }],
-        menuInfo: { active: ['/index'] }
-      },
       {
         path: '/formDemo',
         component: FormDemo,

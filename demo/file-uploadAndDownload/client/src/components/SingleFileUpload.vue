@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 
 export default {
   name: 'SingleFileUpload',
@@ -18,15 +18,14 @@ export default {
 
   props: {},
 
-  data () {
-    return {
-    }
+  data() {
+    return {}
   },
 
   computed: {},
 
   methods: {
-    async uploadFile () {
+    uploadFile() {
       const uploadFileEle = document.querySelector('#uploadFile')
       console.log(111, uploadFileEle, uploadFileEle.files)
       if (!uploadFileEle.files.length) return
@@ -34,14 +33,14 @@ export default {
       // 省略文件的校验过程，比如文件类型、大小校验
       this.upload({
         url: '/single',
-        file
+        file,
       })
     },
 
-    upload ({ url, file, fieldName = 'file' }) {
+    upload({ url, file, fieldName = 'file' }) {
       const request = axios.create({
         baseURL: 'http://localhost:3000/upload',
-        timeout: 60000
+        timeout: 60000,
       })
       let formData = new FormData()
       formData.set(fieldName, file)
@@ -52,21 +51,23 @@ export default {
           onUploadProgress: function (progressEvent) {
             const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
             console.log('进度', percentCompleted)
-          }
+          },
         })
         .then((result) => {
           console.log(result.data)
+          const { code, data, msg } = result.data
+          if (code == 200) {
+            alert(`${msg}, 地址: ${data.docPath}`)
+          }
         })
         .catch((err) => {
           console.log(err)
         })
-    }
+    },
   },
 
-  created () { },
+  created() {},
 }
-
 </script>
 
-<style lang='less' scoped>
-</style>
+<style lang="less" scoped></style>
