@@ -3,7 +3,8 @@ import { Route, Redirect } from 'react-router-dom'
 import { getToken } from '@/common/util.js'
 
 const privateRoute = (route) => {
-  const isLogin = getToken()
+  // const isLogin = getToken()
+  const isLogin = true
 
   return (
     <Route
